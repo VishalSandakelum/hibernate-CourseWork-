@@ -1,3 +1,12 @@
 .button:pressed {
     -fx-background-color: red;
 }
+
+.date-picker {
+    -fx-border-color: white;
+    -fx-border-width: 0px 0px 1px 0px;
+}
+
+.date-picker:focused {
+    -fx-border-color:  #17c1ff;
+}

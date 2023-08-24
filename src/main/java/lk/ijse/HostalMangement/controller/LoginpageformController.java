@@ -11,6 +11,7 @@ public class LoginpageformController {
     public JFXTextField usernametxt;
     public JFXPasswordField passwordhidetxt;
     public JFXTextField passwordshowtxt;
+    public Button passwordcofirmbtn;
 
     public void passwordvisiblebtnonAction(ActionEvent actionEvent) {
         passwordvisiblebtn.setVisible(false);
@@ -30,5 +31,9 @@ public class LoginpageformController {
         passwordhidetxt.setVisible(true);
 
         passwordhidetxt.setText(passwordshowtxt.getText());
+    }
+
+    public void passwordconfirmbtnonAction(ActionEvent actionEvent) {
+        PageLauncher.LauncherPage("/view/managestudentform.fxml",passwordcofirmbtn);
     }
 }

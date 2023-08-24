@@ -10,7 +10,17 @@ import java.io.IOException;
 
 public class PageLauncher {
 
-    private PageLauncher() {
+    private PageLauncher(String path) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(path));
+        Parent root1 = null;
+        try {
+            root1 = (Parent) fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root1));
+        stage.show();
     }
 
     private PageLauncher(String path , Button btn){
@@ -31,6 +41,10 @@ public class PageLauncher {
 
     public static void LauncherPage(String path , Button btn){
         new PageLauncher(path,btn);
+    }
+
+    public static void OpenPage(String path){
+        new PageLauncher(path);
     }
 
 }
