@@ -20,8 +20,11 @@
             <Image url="@../assets/img/firstpage/hostel_logo.jpg" />
          </image>
       </ImageView>
-      <Pane layoutX="126.0" layoutY="113.0" prefHeight="299.0" prefWidth="711.0" style="-fx-background-radius: 15px; -fx-border-color: black; -fx-border-radius: 15px;">
+      <Pane layoutX="126.0" layoutY="113.0" prefHeight="319.0" prefWidth="711.0" style="-fx-background-radius: 15px; -fx-border-color: black; -fx-border-radius: 15px;">
          <children>
+            <Pane layoutX="570.0" layoutY="297.0" prefHeight="43.0" prefWidth="126.0" style="-fx-background-color: white; -fx-background-radius: 10px; -fx-border-radius: 10px; -fx-border-color: black;" />
+            <Pane layoutX="440.0" layoutY="297.0" prefHeight="43.0" prefWidth="126.0" style="-fx-background-color: white; -fx-background-radius: 10px; -fx-border-radius: 10px; -fx-border-color: black;" />
+            <Pane layoutX="309.0" layoutY="297.0" prefHeight="43.0" prefWidth="126.0" style="-fx-background-color: white; -fx-background-radius: 10px; -fx-border-radius: 10px; -fx-border-color: black;" />
             <JFXTextField focusColor="#17c1ff" layoutX="25.0" layoutY="33.0" prefHeight="25.0" prefWidth="287.0" promptText="Student Id">
                <font>
                   <Font name="System Italic" size="16.0" />
@@ -63,6 +66,21 @@
             <DatePicker layoutX="27.0" layoutY="235.0" prefHeight="25.0" prefWidth="287.0" style="-fx-focus-traversable: #17c1ff; -fx-background-color: white;" styleClass="date-picker" stylesheets="@../assets/css/style.css" />
             <Pane layoutX="27.0" layoutY="228.0" prefHeight="12.0" prefWidth="262.0" style="-fx-background-color: white;" />
             <Pane layoutX="22.0" layoutY="230.0" prefHeight="36.0" prefWidth="10.0" style="-fx-background-color: white;" />
+            <Button layoutX="315.0" layoutY="302.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="114.0" style="-fx-background-radius: 10px; -fx-background-color: #17c1ff; -fx-border-color: black; -fx-border-radius: 10px;" text="Save">
+               <font>
+                  <Font name="System Bold Italic" size="15.0" />
+               </font>
+            </Button>
+            <Button layoutX="446.0" layoutY="302.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="114.0" style="-fx-background-radius: 10px; -fx-background-color: #17c1ff; -fx-border-radius: 10px; -fx-border-color: black;" text="Update">
+               <font>
+                  <Font name="System Bold Italic" size="15.0" />
+               </font>
+            </Button>
+            <Button layoutX="576.0" layoutY="302.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="114.0" style="-fx-background-radius: 10px; -fx-background-color: #17c1ff; -fx-border-color: black; -fx-border-radius: 10px;" text="Delete">
+               <font>
+                  <Font name="System Bold Italic" size="15.0" />
+               </font>
+            </Button>
          </children>
       </Pane>
       <Pane layoutX="152.0" layoutY="95.0" prefHeight="36.0" prefWidth="113.0" style="-fx-background-color: white;">
@@ -119,7 +137,7 @@
             </Text>
          </children>
       </Pane>
-      <Button fx:id="tableopenbtn" layoutX="12.0" layoutY="101.0" mnemonicParsing="false" onAction="#tableopenbtnonAction" prefHeight="51.0" prefWidth="55.0" style="-fx-background-color: white;">
+      <Button fx:id="tableopenbtn" layoutX="12.0" layoutY="170.0" mnemonicParsing="false" onAction="#tableopenbtnonAction" prefHeight="51.0" prefWidth="55.0" style="-fx-background-color: white;">
          <graphic>
             <ImageView fitHeight="37.0" fitWidth="63.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -127,5 +145,14 @@
                </image>
             </ImageView>
          </graphic></Button>
+      <Button fx:id="homepagebtn" layoutX="13.0" layoutY="101.0" mnemonicParsing="false" onAction="#homepagebtnonAction" prefHeight="51.0" prefWidth="55.0" style="-fx-background-color: white;">
+         <graphic>
+            <ImageView fitHeight="37.0" fitWidth="63.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/img/managestudentpage/homepage.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>
