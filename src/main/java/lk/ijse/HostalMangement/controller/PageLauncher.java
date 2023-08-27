@@ -59,11 +59,11 @@ public class PageLauncher {
         stage.show();
     }
 
-    private PageLauncher(Button btn,String path){
+    private PageLauncher(Button btn,String path,double YPlus, double XPlus){
 
         Stage currentStage = (Stage) btn.getScene().getWindow();
-        double yaxics = currentStage.getY()+50;
-        double xaxics = currentStage.getX()+50;
+        double yaxics = currentStage.getY()+YPlus;
+        double xaxics = currentStage.getX()+XPlus;
 
         double middleY = currentStage.getY() + currentStage.getHeight() / 2;
         TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1.2), currentStage.getScene().getRoot());
@@ -100,8 +100,8 @@ public class PageLauncher {
         new PageLauncher(path, yaxics, xaxics);
     }
 
-    public static void OpenPageWithAnimation(Button btn, String path){
-        new PageLauncher(btn, path);
+    public static void OpenPageWithAnimation(Button btn, String path, double YPlus, double XPlus){
+        new PageLauncher(btn, path, YPlus, XPlus);
     }
 
 }

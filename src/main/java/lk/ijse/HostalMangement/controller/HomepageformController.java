@@ -24,15 +24,15 @@ public class HomepageformController {
     /*All Action On Here.*/
 
     public void addstudentbtnonAction(ActionEvent actionEvent) {
-        PageLauncher.OpenPageWithAnimation(addstudentbtn,"/view/managestudentform.fxml");
+        PageLauncher.OpenPageWithAnimation(addstudentbtn,"/view/managestudentform.fxml",0, 0);
     }
 
     public void addroombtnonaction(ActionEvent actionEvent) {
-
+        PageLauncher.OpenPageWithAnimation(addroombtn,"/view/manageroomform.fxml",0, 0);
     }
 
     public void managereservationbtnonAction(ActionEvent actionEvent) {
-
+        PageLauncher.OpenPageWithAnimation(managereservationbtn,"/view/managereservationform.fxml",0, 0);
     }
 
     public void paneopenbtnAction(ActionEvent actionEvent) {
