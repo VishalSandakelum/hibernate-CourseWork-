@@ -1,11 +1,14 @@
 package lk.ijse.HostalMangement.controller;
 
+import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 import java.io.IOException;
 
@@ -56,6 +59,35 @@ public class PageLauncher {
         stage.show();
     }
 
+    private PageLauncher(Button btn,String path){
+
+        Stage currentStage = (Stage) btn.getScene().getWindow();
+        double yaxics = currentStage.getY()+50;
+        double xaxics = currentStage.getX()+50;
+
+        double middleY = currentStage.getY() + currentStage.getHeight() / 2;
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1.2), currentStage.getScene().getRoot());
+        translateTransition.setToY(middleY);
+        translateTransition.setOnFinished(event -> currentStage.close());
+        translateTransition.play();
+
+        new Thread() {
+            public void run() {
+                try {
+                    Thread.sleep(1150);
+                    Platform.runLater(() -> {
+                        try {
+                            PageLauncher.OpenPageWithLocation(path,yaxics,xaxics);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
+                } catch (Exception e) {
+                }
+            }
+        }.start();
+    }
+
     public static void LauncherPage(String path , Button btn){
         new PageLauncher(path,btn);
     }
@@ -66,6 +98,10 @@ public class PageLauncher {
 
     public static void OpenPageWithLocation(String path, double yaxics, double xaxics){
         new PageLauncher(path, yaxics, xaxics);
+    }
+
+    public static void OpenPageWithAnimation(Button btn, String path){
+        new PageLauncher(btn, path);
     }
 
 }

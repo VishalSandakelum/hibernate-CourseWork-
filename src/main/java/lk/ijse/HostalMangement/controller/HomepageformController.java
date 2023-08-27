@@ -21,73 +21,18 @@ public class HomepageformController {
     public Button availablebtn;
     public Button seettingbtn;
 
+    /*All Action On Here.*/
+
     public void addstudentbtnonAction(ActionEvent actionEvent) {
-
-    }
-
-    public void addstudentonMouseenterd(MouseEvent mouseEvent) {
-        studentpane.setVisible(true);
-        new Thread() {
-            public void run() {
-                try {
-                    Thread.sleep(2000);
-                    studentpane.setVisible(false);
-                } catch (Exception e) {
-                }
-            }
-        }.start();
-
-        BtnAnimatioStart(addstudentbtn);
+        PageLauncher.OpenPageWithAnimation(addstudentbtn,"/view/managestudentform.fxml");
     }
 
     public void addroombtnonaction(ActionEvent actionEvent) {
 
     }
 
-    public void addroomonMouseenterd(MouseEvent mouseEvent) {
-        roompane.setVisible(true);
-        new Thread() {
-            public void run() {
-                try {
-                    Thread.sleep(2000);
-                    roompane.setVisible(false);
-                } catch (Exception e) {
-                }
-            }
-        }.start();
-
-        BtnAnimatioStart(addroombtn);
-    }
-
     public void managereservationbtnonAction(ActionEvent actionEvent) {
 
-    }
-
-    public void managereservationonMouseenterd(MouseEvent mouseEvent) {
-        reservationpane.setVisible(true);
-        new Thread() {
-            public void run() {
-                try {
-                    Thread.sleep(2000);
-                    reservationpane.setVisible(false);
-                } catch (Exception e) {
-                }
-            }
-        }.start();
-
-        BtnAnimatioStart(managereservationbtn);
-    }
-
-    public void addstudentMouseexited(MouseEvent mouseEvent) {
-        BtnAnimationStop(addstudentbtn);
-    }
-
-    public void addroomMouseexited(MouseEvent mouseEvent) {
-        BtnAnimationStop(addroombtn);
-    }
-
-    public void managereservationMouseexited(MouseEvent mouseEvent) {
-        BtnAnimationStop(managereservationbtn);
     }
 
     public void paneopenbtnAction(ActionEvent actionEvent) {
@@ -102,38 +47,74 @@ public class HomepageformController {
 
     }
 
-    public void notificationbtnonMouseenterd(MouseEvent mouseEvent) {
-        BtnAnimatioStart(notificationbtn);
-    }
-
     public void availablebtnonAction(ActionEvent actionEvent) {
 
-    }
-
-    public void notificationbtnonMouseexited(MouseEvent mouseEvent) {
-        BtnAnimationStop(notificationbtn);
-    }
-
-    public void availablebtnonMouseenterd(MouseEvent mouseEvent) {
-        BtnAnimatioStart(availablebtn);
-    }
-
-    public void availablebtnonMouseexited(MouseEvent mouseEvent) {
-        BtnAnimationStop(availablebtn);
     }
 
     public void seettingbtnonAction(ActionEvent actionEvent) {
 
     }
 
+    /*Mouse Entetrd Action In Here.*/
+
+    public void addstudentonMouseenterd(MouseEvent mouseEvent) {
+        studentpane.setVisible(true);
+        VisiblePane(studentpane);
+        BtnAnimatioStart(addstudentbtn);
+    }
+
+    public void addroomonMouseenterd(MouseEvent mouseEvent) {
+        roompane.setVisible(true);
+        VisiblePane(roompane);
+        BtnAnimatioStart(addroombtn);
+    }
+
+    public void managereservationonMouseenterd(MouseEvent mouseEvent) {
+        reservationpane.setVisible(true);
+        VisiblePane(reservationpane);
+        BtnAnimatioStart(managereservationbtn);
+    }
+
+    public void notificationbtnonMouseenterd(MouseEvent mouseEvent) {
+        BtnAnimatioStart(notificationbtn);
+    }
+
+    public void availablebtnonMouseenterd(MouseEvent mouseEvent) {
+        BtnAnimatioStart(availablebtn);
+    }
+
     public void settingMouseenterd(MouseEvent mouseEvent) {
         BtnAnimatioStart(seettingbtn);
+    }
+
+    /*Mouse Exited Action On Here.*/
+
+    public void addstudentMouseexited(MouseEvent mouseEvent) {
+        BtnAnimationStop(addstudentbtn);
+    }
+
+    public void addroomMouseexited(MouseEvent mouseEvent) {
+        BtnAnimationStop(addroombtn);
+    }
+
+    public void managereservationMouseexited(MouseEvent mouseEvent) {
+        BtnAnimationStop(managereservationbtn);
+    }
+
+    public void notificationbtnonMouseexited(MouseEvent mouseEvent) {
+        BtnAnimationStop(notificationbtn);
+    }
+
+    public void availablebtnonMouseexited(MouseEvent mouseEvent) {
+        BtnAnimationStop(availablebtn);
     }
 
     public void settingbtnonMouse(MouseEvent mouseEvent) {
         BtnAnimationStop(seettingbtn);
     }
 
+
+    /*Animation Start For Button*/
     private void BtnAnimatioStart(Button btn){
         ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(200), btn);
         scaleTransition.setToX(1.2);
@@ -141,11 +122,25 @@ public class HomepageformController {
         scaleTransition.playFromStart();
     }
 
+    /*Animation Stop For Button*/
     private void BtnAnimationStop(Button btn){
         ScaleTransition reverseScaleTransition = new ScaleTransition(Duration.millis(200), btn);
         reverseScaleTransition.setToX(1.0);
         reverseScaleTransition.setToY(1.0);
         reverseScaleTransition.playFromStart();
+    }
+
+    /*Information Pane Visible When Mouse Enterd*/
+    private void VisiblePane(Pane pane) {
+        new Thread() {
+            public void run() {
+                try {
+                    Thread.sleep(2000);
+                    pane.setVisible(false);
+                } catch (Exception e) {
+                }
+            }
+        }.start();
     }
 
 }

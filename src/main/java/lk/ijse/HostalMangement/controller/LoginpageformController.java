@@ -34,6 +34,6 @@ public class LoginpageformController {
     }
 
     public void passwordconfirmbtnonAction(ActionEvent actionEvent) {
-        PageLauncher.LauncherPage("/view/managestudentform.fxml",passwordcofirmbtn);
+        PageLauncher.LauncherPage("/view/homepageform.fxml",passwordcofirmbtn);
     }
 }
