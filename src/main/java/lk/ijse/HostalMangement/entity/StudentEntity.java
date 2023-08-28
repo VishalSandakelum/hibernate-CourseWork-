@@ -1,6 +1,10 @@
 package lk.ijse.HostalMangement.entity;
 
+import lk.ijse.HostalMangement.embedded.Name;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "student")
@@ -9,8 +13,7 @@ public class StudentEntity {
     @Id
     @Column(name = "student_id", length = 40)
     private String StudentId;
-    @Column(name = "student_name",nullable = false, length = 50 )
-    private String Name;
+    private Name FullName;
     @Column(name = "address",nullable = false,  columnDefinition = "TEXT" )
     private String Address;
     @Column(name = "contact_number",nullable = false, length = 50 )
@@ -20,16 +23,20 @@ public class StudentEntity {
     @Column(name = "gender",nullable = false, length = 50 )
     private String Gender;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy =  "Student")
+    private List<ReservationEntity> reservationEntities = new ArrayList<>();
+
     public StudentEntity() {
     }
 
-    public StudentEntity(String studentId, String name, String address, String contactNumber, String dateOfBirth, String gender) {
+    public StudentEntity(String studentId, Name fullName, String address, String contactNumber, String dateOfBirth, String gender, List<ReservationEntity> reservationEntities) {
         StudentId = studentId;
-        Name = name;
+        FullName = fullName;
         Address = address;
         ContactNumber = contactNumber;
         DateOfBirth = dateOfBirth;
         Gender = gender;
+        this.reservationEntities = reservationEntities;
     }
 
     public String getStudentId() {
@@ -40,12 +47,12 @@ public class StudentEntity {
         StudentId = studentId;
     }
 
-    public String getName() {
-        return Name;
+    public Name getFullName() {
+        return FullName;
     }
 
-    public void setName(String name) {
-        Name = name;
+    public void setFullName(Name fullName) {
+        FullName = fullName;
     }
 
     public String getAddress() {
@@ -78,5 +85,13 @@ public class StudentEntity {
 
     public void setGender(String gender) {
         Gender = gender;
+    }
+
+    public List<ReservationEntity> getReservationEntities() {
+        return reservationEntities;
+    }
+
+    public void setReservationEntities(List<ReservationEntity> reservationEntities) {
+        this.reservationEntities = reservationEntities;
     }
 }

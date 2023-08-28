@@ -1,6 +1,8 @@
 package lk.ijse.HostalMangement.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "room")
@@ -16,14 +18,18 @@ public class RoomEntity {
     @Column(name = "qty",nullable = false, length = 50)
     private int Qty;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy =  "Room")
+    private List<ReservationEntity> reservationEntities = new ArrayList<>();
+
     public RoomEntity() {
     }
 
-    public RoomEntity(String roomTypeId, String type, String keyMoney, int qty) {
+    public RoomEntity(String roomTypeId, String type, String keyMoney, int qty, List<ReservationEntity> reservationEntities) {
         RoomTypeId = roomTypeId;
         Type = type;
         KeyMoney = keyMoney;
         Qty = qty;
+        this.reservationEntities = reservationEntities;
     }
 
     public String getRoomTypeId() {
@@ -56,5 +62,24 @@ public class RoomEntity {
 
     public void setQty(int qty) {
         Qty = qty;
+    }
+
+    public List<ReservationEntity> getReservationEntities() {
+        return reservationEntities;
+    }
+
+    public void setReservationEntities(List<ReservationEntity> reservationEntities) {
+        this.reservationEntities = reservationEntities;
+    }
+
+    @Override
+    public String toString() {
+        return "RoomEntity{" +
+                "RoomTypeId='" + RoomTypeId + '\'' +
+                ", Type='" + Type + '\'' +
+                ", KeyMoney='" + KeyMoney + '\'' +
+                ", Qty=" + Qty +
+                ", reservationEntities=" + reservationEntities +
+                '}';
     }
 }
