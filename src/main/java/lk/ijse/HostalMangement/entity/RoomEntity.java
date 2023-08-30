@@ -1,5 +1,7 @@
 package lk.ijse.HostalMangement.entity;
 
+import lk.ijse.HostalMangement.dto.RoomDTO;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -82,4 +84,15 @@ public class RoomEntity {
                 ", reservationEntities=" + reservationEntities +
                 '}';
     }
+
+    public RoomDTO ToDto(){
+        RoomDTO roomDTO = new RoomDTO();
+        roomDTO.setRoomTypeId(this.RoomTypeId);
+        roomDTO.setType(this.Type);
+        roomDTO.setKeyMoney(this.KeyMoney);
+        roomDTO.setQty(this.Qty);
+        roomDTO.setReservationEntities(this.reservationEntities);
+        return roomDTO;
+    }
+
 }

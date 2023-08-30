@@ -2,5 +2,7 @@ package lk.ijse.HostalMangement.bo.custom;
 
 import lk.ijse.HostalMangement.bo.SuperBo;
 
-public interface CustomerBo extends SuperBo {
+public interface StudentBo extends SuperBo {
+    int SaveStudent();
+
 }

@@ -1,5 +1,6 @@
 package lk.ijse.HostalMangement.entity;
 
+import lk.ijse.HostalMangement.dto.ReservationDTO;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -92,4 +93,15 @@ public class ReservationEntity {
                 ", Status='" + Status + '\'' +
                 '}';
     }
+
+    public ReservationDTO ToDto(){
+        ReservationDTO reservationDTO = new ReservationDTO();
+        reservationDTO.setReservationId(this.ReservationId);
+        reservationDTO.setOrderDateTime(this.OrderDateTime);
+        reservationDTO.setStudent(this.Student);
+        reservationDTO.setRoom(this.Room);
+        reservationDTO.setStatus(this.Status);
+        return reservationDTO;
+    }
+
 }

@@ -1,5 +1,6 @@
 package lk.ijse.HostalMangement.entity;
 
+import lk.ijse.HostalMangement.dto.StudentDTO;
 import lk.ijse.HostalMangement.embedded.Name;
 
 import javax.persistence.*;
@@ -94,4 +95,17 @@ public class StudentEntity {
     public void setReservationEntities(List<ReservationEntity> reservationEntities) {
         this.reservationEntities = reservationEntities;
     }
+
+    public StudentDTO ToDto(){
+        StudentDTO studentDTO = new StudentDTO();
+        studentDTO.setStudentId(this.StudentId);
+        studentDTO.setFullName(this.FullName);
+        studentDTO.setAddress(this.Address);
+        studentDTO.setContactNumber(this.ContactNumber);
+        studentDTO.setDateOfBirth(this.DateOfBirth);
+        studentDTO.setGender(this.Gender);
+        studentDTO.setReservationEntities(this.reservationEntities);
+        return studentDTO;
+    }
+
 }
