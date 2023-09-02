@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 public class ReservationEntity {
 
     @Id
-    @Column(name = "reservation_id")
+    @Column(name = "reservation_id",length = 50 )
     private String ReservationId;
     @CreationTimestamp
     @Column(name = "date_")
@@ -29,7 +29,7 @@ public class ReservationEntity {
             insertable = false,
             updatable = false)
     private RoomEntity Room;
-    @Column(name = "status")
+    @Column(name = "status",length = 50 )
     private String Status;
 
     public ReservationEntity() {

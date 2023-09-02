@@ -25,29 +25,29 @@
             <Pane layoutX="570.0" layoutY="364.0" prefHeight="43.0" prefWidth="126.0" style="-fx-background-color: white; -fx-background-radius: 10px; -fx-border-radius: 10px; -fx-border-color: black;" />
             <Pane layoutX="440.0" layoutY="364.0" prefHeight="43.0" prefWidth="126.0" style="-fx-background-color: white; -fx-background-radius: 10px; -fx-border-radius: 10px; -fx-border-color: black;" />
             <Pane layoutX="309.0" layoutY="364.0" prefHeight="43.0" prefWidth="126.0" style="-fx-background-color: white; -fx-background-radius: 10px; -fx-border-radius: 10px; -fx-border-color: black;" />
-            <JFXTextField focusColor="#17c1ff" layoutX="25.0" layoutY="33.0" prefHeight="25.0" prefWidth="287.0" promptText="Student Id">
+            <JFXTextField fx:id="studentIdtxt" focusColor="#17c1ff" layoutX="25.0" layoutY="33.0" prefHeight="25.0" prefWidth="287.0" promptText="Student Id">
                <font>
                   <Font name="System Italic" size="16.0" />
                </font>
             </JFXTextField>
-            <JFXTextField focusColor="#17c1ff" layoutX="395.0" layoutY="33.0" prefHeight="25.0" prefWidth="287.0" promptText="First Name">
+            <JFXTextField fx:id="studentFirstNametxt" focusColor="#17c1ff" layoutX="395.0" layoutY="33.0" prefHeight="25.0" prefWidth="287.0" promptText="First Name">
                <font>
                   <Font name="System Italic" size="16.0" />
                </font>
             </JFXTextField>
-            <JFXTextField focusColor="#17c1ff" layoutX="25.0" layoutY="132.0" prefHeight="25.0" prefWidth="287.0" promptText="Last Name">
+            <JFXTextField fx:id="studentLastNametxt" focusColor="#17c1ff" layoutX="25.0" layoutY="132.0" prefHeight="25.0" prefWidth="287.0" promptText="Last Name">
                <font>
                   <Font name="System Italic" size="16.0" />
                </font>
             </JFXTextField>
-            <JFXTextField focusColor="#17c1ff" layoutX="395.0" layoutY="134.0" prefHeight="25.0" prefWidth="287.0" promptText="Contact Number">
+            <JFXTextField fx:id="contactNumbertxt" focusColor="#17c1ff" layoutX="395.0" layoutY="134.0" prefHeight="25.0" prefWidth="287.0" promptText="Contact Number">
                <font>
                   <Font name="System Italic" size="16.0" />
                </font>
             </JFXTextField>
             <Line endX="610.2000122070312" layoutX="100.0" layoutY="201.0" startX="-100.0" />
             <Line endX="610.2000122070312" layoutX="100.0" layoutY="110.0" startX="-100.0" />
-            <JFXCheckBox checkedColor="#17c1ff" layoutX="418.0" layoutY="234.0" prefHeight="18.0" prefWidth="85.0" text="Male">
+            <JFXCheckBox fx:id="malecheck" checkedColor="#17c1ff" layoutX="418.0" layoutY="234.0" onAction="#malecheckBoxonAction" prefHeight="18.0" prefWidth="85.0" text="Male">
                <font>
                   <Font size="16.0" />
                </font>
@@ -55,7 +55,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXCheckBox>
-            <JFXCheckBox checkedColor="#17c1ff" layoutX="503.0" layoutY="234.0" prefHeight="18.0" prefWidth="85.0" text="Female">
+            <JFXCheckBox fx:id="femelcheck" checkedColor="#17c1ff" layoutX="503.0" layoutY="234.0" onAction="#femekcheckBoxonAction" prefHeight="18.0" prefWidth="85.0" text="Female">
                <font>
                   <Font size="16.0" />
                </font>
@@ -63,26 +63,26 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXCheckBox>
-            <DatePicker layoutX="27.0" layoutY="314.0" prefHeight="25.0" prefWidth="287.0" style="-fx-focus-traversable: #17c1ff; -fx-background-color: white;" styleClass="date-picker" stylesheets="@../assets/css/style.css" />
+            <DatePicker fx:id="dobtxt" layoutX="27.0" layoutY="314.0" prefHeight="25.0" prefWidth="287.0" style="-fx-focus-traversable: #17c1ff; -fx-background-color: white;" styleClass="date-picker" stylesheets="@../assets/css/style.css" />
             <Pane layoutX="27.0" layoutY="307.0" prefHeight="12.0" prefWidth="262.0" style="-fx-background-color: white;" />
             <Pane layoutX="22.0" layoutY="309.0" prefHeight="36.0" prefWidth="10.0" style="-fx-background-color: white;" />
-            <Button layoutX="315.0" layoutY="369.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="114.0" style="-fx-background-radius: 10px; -fx-background-color: #17c1ff; -fx-border-color: black; -fx-border-radius: 10px;" text="Save">
+            <Button fx:id="savebtn" layoutX="315.0" layoutY="369.0" mnemonicParsing="false" onAction="#savebtnonaction" prefHeight="25.0" prefWidth="114.0" style="-fx-background-radius: 10px; -fx-background-color: #17c1ff; -fx-border-color: black; -fx-border-radius: 10px;" text="Save">
                <font>
                   <Font name="System Bold Italic" size="15.0" />
                </font>
             </Button>
-            <Button layoutX="446.0" layoutY="369.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="114.0" style="-fx-background-radius: 10px; -fx-background-color: #17c1ff; -fx-border-radius: 10px; -fx-border-color: black;" text="Update">
+            <Button fx:id="updatebtn" layoutX="446.0" layoutY="369.0" mnemonicParsing="false" onAction="#updatebtnonAction" prefHeight="25.0" prefWidth="114.0" style="-fx-background-radius: 10px; -fx-background-color: #17c1ff; -fx-border-radius: 10px; -fx-border-color: black;" text="Update">
                <font>
                   <Font name="System Bold Italic" size="15.0" />
                </font>
             </Button>
-            <Button layoutX="576.0" layoutY="369.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="114.0" style="-fx-background-radius: 10px; -fx-background-color: #17c1ff; -fx-border-color: black; -fx-border-radius: 10px;" text="Delete">
+            <Button fx:id="deletebtn" layoutX="576.0" layoutY="369.0" mnemonicParsing="false" onAction="#deletebtnonAction" prefHeight="25.0" prefWidth="114.0" style="-fx-background-radius: 10px; -fx-background-color: #17c1ff; -fx-border-color: black; -fx-border-radius: 10px;" text="Delete">
                <font>
                   <Font name="System Bold Italic" size="15.0" />
                </font>
             </Button>
             <Line endX="610.2000122070312" layoutX="102.0" layoutY="290.0" startX="-100.0" />
-            <JFXTextField focusColor="#17c1ff" layoutX="26.0" layoutY="218.0" prefHeight="25.0" prefWidth="287.0" promptText="Address">
+            <JFXTextField fx:id="adresstxt" focusColor="#17c1ff" layoutX="26.0" layoutY="218.0" prefHeight="25.0" prefWidth="287.0" promptText="Address">
                <font>
                   <Font name="System Italic" size="16.0" />
                </font>

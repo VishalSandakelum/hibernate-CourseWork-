@@ -5,6 +5,6 @@ import lk.ijse.HostalMangement.dao.SuperDao;
 import lk.ijse.HostalMangement.entity.StudentEntity;
 import org.hibernate.Session;
 
-public interface StudentDao extends CrudDao<StudentEntity, Integer> {
+public interface StudentDao extends CrudDao<StudentEntity, String> {
     void SetSession(Session session);
 }

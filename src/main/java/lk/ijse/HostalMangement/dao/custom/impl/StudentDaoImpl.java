@@ -11,12 +11,12 @@ public class StudentDaoImpl implements StudentDao {
     public StudentDaoImpl(){}
 
     @Override
-    public Integer Save(StudentEntity studentEntity) {
-        return (int) session.save(studentEntity);
+    public String Save(StudentEntity studentEntity) {
+        return (String) session.save(studentEntity);
     }
 
     @Override
-    public StudentEntity Get(Integer id) {
+    public StudentEntity Get(String id) {
         return session.get(StudentEntity.class,id);
     }
 

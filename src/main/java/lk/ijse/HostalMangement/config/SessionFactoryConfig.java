@@ -30,12 +30,12 @@ public class SessionFactoryConfig {
     
     public Session getSession() {
 
-        Properties properties = new Properties();
+        /*Properties properties = new Properties();
 
         try {
             properties.load(SessionFactoryConfig.class.getResourceAsStream("/hibernatepropertyfile/hibernate.properties"));
         } catch (Exception e) {}
-
+*/
         return sessionFactory.openSession();
     } 
 

@@ -12,16 +12,7 @@ import org.hibernate.Transaction;
 
 public class ReservationBoImpl implements ReservationBo {
 
-    private static ReservationBoImpl reservationBoImpl;
-    private final ReservationDao reservationDao;
-
-    private ReservationBoImpl(){
-        reservationDao = DaoFactory.getDaoFactory().getDao(DaoFactory.DaoType.RESERVATION);
-    }
-
-    public static ReservationBoImpl getInstance(){
-        return (reservationBoImpl == null) ? reservationBoImpl = new ReservationBoImpl() : reservationBoImpl;
-    }
+    ReservationDao reservationDao = DaoFactory.getDaoFactory().getDao(DaoFactory.DaoType.RESERVATION);
 
     @Override
     public int SaveReservationDetails(ReservationDTO reservationDTO) {

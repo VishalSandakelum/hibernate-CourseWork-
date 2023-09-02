@@ -104,7 +104,7 @@ public class StudentEntity {
         studentDTO.setContactNumber(this.ContactNumber);
         studentDTO.setDateOfBirth(this.DateOfBirth);
         studentDTO.setGender(this.Gender);
-        studentDTO.setReservationEntities(this.reservationEntities);
+        //studentDTO.setReservationEntities(this.reservationEntities);
         return studentDTO;
     }
 

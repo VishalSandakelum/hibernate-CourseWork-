@@ -11,16 +11,7 @@ import org.hibernate.Transaction;
 
 public class RoomBoImpl implements RoomBo {
 
-    private static RoomBoImpl roomBoImpl;
-    private final RoomDao roomDao;
-
-    private RoomBoImpl(){
-        roomDao = DaoFactory.getDaoFactory().getDao(DaoFactory.DaoType.ROOM);
-    }
-
-    public static RoomBoImpl getInstance(){
-        return (roomBoImpl==null) ? roomBoImpl = new RoomBoImpl() : roomBoImpl;
-    }
+    RoomDao roomDao = DaoFactory.getDaoFactory().getDao(DaoFactory.DaoType.ROOM);
 
     @Override
     public int SaveRoom(RoomDTO roomDTO) {

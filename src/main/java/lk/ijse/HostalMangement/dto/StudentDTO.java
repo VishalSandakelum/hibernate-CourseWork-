@@ -21,7 +21,7 @@ public class StudentDTO {
     private String ContactNumber;
     private String DateOfBirth;
     private String Gender;
-    private List<ReservationEntity> reservationEntities = new ArrayList<>();
+    //private List<ReservationEntity> reservationEntities = new ArrayList<>();
 
     public StudentEntity ToEntity(){
         StudentEntity student =  new StudentEntity();
@@ -31,7 +31,7 @@ public class StudentDTO {
         student.setContactNumber(this.ContactNumber);
         student.setDateOfBirth(this.DateOfBirth);
         student.setGender(this.Gender);
-        student.setReservationEntities(this.reservationEntities);
+        //student.setReservationEntities(this.reservationEntities);
         return student;
     }
 
