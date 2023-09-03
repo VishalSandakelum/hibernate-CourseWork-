@@ -9,17 +9,19 @@ import lk.ijse.HostalMangement.entity.RoomEntity;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.util.List;
+
 public class RoomBoImpl implements RoomBo {
 
     RoomDao roomDao = DaoFactory.getDaoFactory().getDao(DaoFactory.DaoType.ROOM);
 
     @Override
-    public int SaveRoom(RoomDTO roomDTO) {
+    public String SaveRoom(RoomDTO roomDTO) {
         Session session = SessionFactoryConfig.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
         try {
             roomDao.SetSession(session);
-            int save = roomDao.Save(roomDTO.ToEntity());
+            String save = roomDao.Save(roomDTO.ToEntity());
             transaction.commit();
             session.close();
             return save;
@@ -27,13 +29,13 @@ public class RoomBoImpl implements RoomBo {
             e.printStackTrace();
             transaction.rollback();
             session.close();
-            return -1;
+            return "-1";
         }
 
     }
 
     @Override
-    public RoomDTO getRoom(int room_type_id) {
+    public RoomDTO getRoom(String room_type_id) {
         Session session = SessionFactoryConfig.getInstance().getSession();
         try {
             roomDao.SetSession(session);
@@ -79,6 +81,34 @@ public class RoomBoImpl implements RoomBo {
             transaction.rollback();
             session.close();
             return false;
+        }
+    }
+
+    @Override
+    public List<String> getAllRoomType() {
+        Session session = SessionFactoryConfig.getInstance().getSession();
+        try{
+            roomDao.SetSession(session);
+            List<String> type =  roomDao.getRoomType();
+            session.close();
+            return type;
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    @Override
+    public List<String> getAllRoomTypeID() {
+        Session session = SessionFactoryConfig.getInstance().getSession();
+        try{
+            roomDao.SetSession(session);
+            List<String>typeId = roomDao.getRoomTypeID();
+            session.close();
+            return typeId;
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
         }
     }
 }

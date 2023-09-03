@@ -25,7 +25,7 @@
             <Pane layoutX="570.0" layoutY="364.0" prefHeight="43.0" prefWidth="126.0" style="-fx-background-color: white; -fx-background-radius: 10px; -fx-border-radius: 10px; -fx-border-color: black;" />
             <Pane layoutX="440.0" layoutY="364.0" prefHeight="43.0" prefWidth="126.0" style="-fx-background-color: white; -fx-background-radius: 10px; -fx-border-radius: 10px; -fx-border-color: black;" />
             <Pane layoutX="309.0" layoutY="364.0" prefHeight="43.0" prefWidth="126.0" style="-fx-background-color: white; -fx-background-radius: 10px; -fx-border-radius: 10px; -fx-border-color: black;" />
-            <JFXTextField fx:id="studentIdtxt" focusColor="#17c1ff" layoutX="25.0" layoutY="33.0" prefHeight="25.0" prefWidth="287.0" promptText="Student Id">
+            <JFXTextField fx:id="studentIdtxt" focusColor="#17c1ff" layoutX="25.0" layoutY="33.0" onAction="#studentidtxtonAction" prefHeight="25.0" prefWidth="287.0" promptText="Student Id">
                <font>
                   <Font name="System Italic" size="16.0" />
                </font>

@@ -91,7 +91,7 @@ public class RoomEntity {
         roomDTO.setType(this.Type);
         roomDTO.setKeyMoney(this.KeyMoney);
         roomDTO.setQty(this.Qty);
-        roomDTO.setReservationEntities(this.reservationEntities);
+        //roomDTO.setReservationEntities(this.reservationEntities);
         return roomDTO;
     }
 

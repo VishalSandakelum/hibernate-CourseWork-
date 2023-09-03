@@ -18,7 +18,7 @@ public class RoomDTO {
     private String Type;
     private String KeyMoney;
     private int Qty;
-    private List<ReservationEntity> reservationEntities = new ArrayList<>();
+    //private List<ReservationEntity> reservationEntities = new ArrayList<>();
 
     public RoomEntity ToEntity(){
         RoomEntity room = new RoomEntity();
@@ -26,7 +26,7 @@ public class RoomDTO {
         room.setType(this.Type);
         room.setKeyMoney(this.KeyMoney);
         room.setQty(this.Qty);
-        room.setReservationEntities(this.reservationEntities);
+        //room.setReservationEntities(this.reservationEntities);
         return room;
     }
 

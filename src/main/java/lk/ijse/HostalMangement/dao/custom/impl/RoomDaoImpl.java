@@ -2,7 +2,10 @@ package lk.ijse.HostalMangement.dao.custom.impl;
 
 import lk.ijse.HostalMangement.dao.custom.RoomDao;
 import lk.ijse.HostalMangement.entity.RoomEntity;
+import org.hibernate.query.Query;
 import org.hibernate.Session;
+
+import java.util.List;
 
 public class RoomDaoImpl implements RoomDao {
 
@@ -11,12 +14,12 @@ public class RoomDaoImpl implements RoomDao {
     public RoomDaoImpl(){}
 
     @Override
-    public Integer Save(RoomEntity roomEntity) {
-        return (int) session.save(roomEntity);
+    public String Save(RoomEntity roomEntity) {
+        return (String) session.save(roomEntity);
     }
 
     @Override
-    public RoomEntity Get(Integer id) {
+    public RoomEntity Get(String id) {
         return session.get(RoomEntity.class,id);
     }
 
@@ -33,5 +36,21 @@ public class RoomDaoImpl implements RoomDao {
     @Override
     public void SetSession(Session session) {
         this.session = session;
+    }
+
+    @Override
+    public List<String> getRoomType() {
+        String hql = "SELECT r.Type FROM RoomEntity r";
+        Query query = session.createQuery(hql);
+        List list = query.list();
+        return list;
+    }
+
+    @Override
+    public List<String> getRoomTypeID() {
+        String hql = "SELECT r.RoomTypeId FROM RoomEntity r";
+        Query query = session.createQuery(hql);
+        List list = query.list();
+        return list;
     }
 }

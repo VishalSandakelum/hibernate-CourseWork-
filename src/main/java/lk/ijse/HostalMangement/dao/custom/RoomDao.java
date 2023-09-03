@@ -5,6 +5,10 @@ import lk.ijse.HostalMangement.dao.SuperDao;
 import lk.ijse.HostalMangement.entity.RoomEntity;
 import org.hibernate.Session;
 
-public interface RoomDao extends CrudDao<RoomEntity,Integer> {
+import java.util.List;
+
+public interface RoomDao extends CrudDao<RoomEntity,String> {
     void SetSession(Session session);
+    List<String> getRoomType();
+    List<String> getRoomTypeID();
 }

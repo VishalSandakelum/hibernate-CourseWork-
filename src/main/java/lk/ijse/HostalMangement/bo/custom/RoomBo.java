@@ -3,9 +3,13 @@ package lk.ijse.HostalMangement.bo.custom;
 import lk.ijse.HostalMangement.bo.SuperBo;
 import lk.ijse.HostalMangement.dto.RoomDTO;
 
+import java.util.List;
+
 public interface RoomBo extends SuperBo {
-    int SaveRoom(RoomDTO roomDTO);
-    RoomDTO getRoom(int room_type_id);
+    String SaveRoom(RoomDTO roomDTO);
+    RoomDTO getRoom(String room_type_id);
     boolean UpdateRoom(RoomDTO roomDTO);
     boolean DeleteRoom(RoomDTO roomDTO);
+    List<String> getAllRoomType();
+    List<String> getAllRoomTypeID();
 }
