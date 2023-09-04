@@ -3,8 +3,14 @@ package lk.ijse.HostalMangement.dao.custom;
 import lk.ijse.HostalMangement.dao.CrudDao;
 import lk.ijse.HostalMangement.dao.SuperDao;
 import lk.ijse.HostalMangement.entity.ReservationEntity;
+import lk.ijse.HostalMangement.entity.RoomEntity;
+import lk.ijse.HostalMangement.entity.StudentEntity;
 import org.hibernate.Session;
 
-public interface ReservationDao extends CrudDao<ReservationEntity, Integer> {
+import java.util.List;
+
+public interface ReservationDao extends CrudDao<ReservationEntity, String> {
     void SetSession(Session session);
+    List<StudentEntity> GetStudentName(String ID);
+    List<RoomEntity> GetKeyMoney(String ID);
 }

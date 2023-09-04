@@ -5,22 +5,27 @@ import lk.ijse.HostalMangement.config.SessionFactoryConfig;
 import lk.ijse.HostalMangement.dao.DaoFactory;
 import lk.ijse.HostalMangement.dao.custom.ReservationDao;
 import lk.ijse.HostalMangement.dto.ReservationDTO;
+import lk.ijse.HostalMangement.dto.RoomDTO;
+import lk.ijse.HostalMangement.dto.StudentDTO;
 import lk.ijse.HostalMangement.entity.ReservationEntity;
 import lk.ijse.HostalMangement.entity.RoomEntity;
+import lk.ijse.HostalMangement.entity.StudentEntity;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
+import java.util.List;
 
 public class ReservationBoImpl implements ReservationBo {
 
     ReservationDao reservationDao = DaoFactory.getDaoFactory().getDao(DaoFactory.DaoType.RESERVATION);
 
     @Override
-    public int SaveReservationDetails(ReservationDTO reservationDTO) {
+    public String SaveReservationDetails(ReservationDTO reservationDTO) {
         Session session = SessionFactoryConfig.getInstance().getSession();
         Transaction transaction  = session.beginTransaction();
         try {
             reservationDao.SetSession(session);
-            int save = reservationDao.Save(reservationDTO.ToEntity());
+            String save = reservationDao.Save(reservationDTO.ToEntity());
             transaction.commit();
             session.close();
             return save;
@@ -28,12 +33,12 @@ public class ReservationBoImpl implements ReservationBo {
             e.printStackTrace();
             transaction.rollback();
             session.close();
-            return 0;
+            return "-1";
         }
     }
 
     @Override
-    public ReservationDTO getReservationDetails(int reservation_id) {
+    public ReservationDTO getReservationDetails(String reservation_id) {
         Session session = SessionFactoryConfig.getInstance().getSession();
         try {
             reservationDao.SetSession(session);
@@ -52,7 +57,7 @@ public class ReservationBoImpl implements ReservationBo {
         Transaction transaction = session.beginTransaction();
         try{
             reservationDao.SetSession(session);
-            reservationDao.Update(reservationDTO.ToEntity());
+            reservationDao.Update(reservationDTO.ToEntityUpdate());
             transaction.commit();
             session.close();
             return true;
@@ -79,6 +84,36 @@ public class ReservationBoImpl implements ReservationBo {
             transaction.rollback();
             session.close();
             return false;
+        }
+    }
+
+    @Override
+    public StudentDTO GetStudentName(String ID) {
+        Session session = SessionFactoryConfig.getInstance().getSession();
+        try{
+            reservationDao.SetSession(session);
+            List<StudentEntity> student =  reservationDao.GetStudentName(ID);
+            StudentEntity studentEntity = student.get(0);
+            session.close();
+            return studentEntity.ToDto();
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    @Override
+    public RoomDTO GetKeyMoney(String ID) {
+        Session session = SessionFactoryConfig.getInstance().getSession();
+        try{
+            reservationDao.SetSession(session);
+            List<RoomEntity> room =  reservationDao.GetKeyMoney(ID);
+            RoomEntity roomEntity = room.get(0);
+            session.close();
+            return roomEntity.ToDto();
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
         }
     }
 }
