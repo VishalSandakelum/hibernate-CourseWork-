@@ -6,9 +6,9 @@ import lk.ijse.HostalMangement.dto.RoomDTO;
 import lk.ijse.HostalMangement.dto.StudentDTO;
 
 public interface ReservationBo extends SuperBo {
-    String SaveReservationDetails(ReservationDTO reservationDTO);
+    String SaveReservationDetails(ReservationDTO reservationDTO,RoomDTO roomDTO);
     ReservationDTO getReservationDetails(String reservation_id);
-    boolean UpdateReservationDetails(ReservationDTO reservationDTO);
+    boolean UpdateReservationDetails(ReservationDTO reservationDTO,RoomDTO roomDTO);
     boolean DeleteReservationDetails(ReservationDTO reservationDTO);
     StudentDTO GetStudentName(String ID);
     RoomDTO GetKeyMoney(String ID);

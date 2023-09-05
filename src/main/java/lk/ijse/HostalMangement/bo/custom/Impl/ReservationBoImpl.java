@@ -4,6 +4,7 @@ import lk.ijse.HostalMangement.bo.custom.ReservationBo;
 import lk.ijse.HostalMangement.config.SessionFactoryConfig;
 import lk.ijse.HostalMangement.dao.DaoFactory;
 import lk.ijse.HostalMangement.dao.custom.ReservationDao;
+import lk.ijse.HostalMangement.dao.custom.RoomDao;
 import lk.ijse.HostalMangement.dto.ReservationDTO;
 import lk.ijse.HostalMangement.dto.RoomDTO;
 import lk.ijse.HostalMangement.dto.StudentDTO;
@@ -18,14 +19,17 @@ import java.util.List;
 public class ReservationBoImpl implements ReservationBo {
 
     ReservationDao reservationDao = DaoFactory.getDaoFactory().getDao(DaoFactory.DaoType.RESERVATION);
+    RoomDao roomDao = DaoFactory.getDaoFactory().getDao(DaoFactory.DaoType.ROOM);
 
     @Override
-    public String SaveReservationDetails(ReservationDTO reservationDTO) {
+    public String SaveReservationDetails(ReservationDTO reservationDTO,RoomDTO roomDTO) {
         Session session = SessionFactoryConfig.getInstance().getSession();
         Transaction transaction  = session.beginTransaction();
         try {
             reservationDao.SetSession(session);
+            roomDao.SetSession(session);
             String save = reservationDao.Save(reservationDTO.ToEntity());
+            roomDao.Update(roomDTO.ToEntity());
             transaction.commit();
             session.close();
             return save;
@@ -52,12 +56,14 @@ public class ReservationBoImpl implements ReservationBo {
     }
 
     @Override
-    public boolean UpdateReservationDetails(ReservationDTO reservationDTO) {
+    public boolean UpdateReservationDetails(ReservationDTO reservationDTO,RoomDTO roomDTO) {
         Session session = SessionFactoryConfig.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
         try{
             reservationDao.SetSession(session);
+            roomDao.SetSession(session);
             reservationDao.Update(reservationDTO.ToEntityUpdate());
+            roomDao.Update(roomDTO.ToEntity());
             transaction.commit();
             session.close();
             return true;

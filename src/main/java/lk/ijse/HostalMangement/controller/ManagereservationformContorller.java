@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import lk.ijse.HostalMangement.bo.BoFactory;
 import lk.ijse.HostalMangement.bo.custom.ReservationBo;
+import lk.ijse.HostalMangement.bo.custom.RoomBo;
 import lk.ijse.HostalMangement.dto.ReservationDTO;
 import lk.ijse.HostalMangement.dto.RoomDTO;
 import lk.ijse.HostalMangement.dto.StudentDTO;
@@ -77,7 +78,8 @@ public class ManagereservationformContorller implements Initializable {
         reservationDTO.setStudentName(student.getFullName().getFirstName());
         reservationDTO.setKeyMoney(room.getKeyMoney());
 
-        String save = reservationBo.SaveReservationDetails(reservationDTO);
+        RoomDTO roomDTOAvailable = CalculateAvailableRoom(room,SelectTypeForCalculateRoom.SAVE);
+        String save = reservationBo.SaveReservationDetails(reservationDTO,roomDTOAvailable);
 
         if(save!=("-1")){
             showAlert("Reservation Management"
@@ -115,20 +117,25 @@ public class ManagereservationformContorller implements Initializable {
         reservationDTO.setStudentName(student.getFullName().getFirstName());
         reservationDTO.setKeyMoney(room.getKeyMoney());
 
-        boolean update = reservationBo.UpdateReservationDetails(reservationDTO);
+        try {
+            RoomDTO roomDTOAvailable = CalculateAvailableRoom(room, SelectTypeForCalculateRoom.UPDATE);
+            boolean update = reservationBo.UpdateReservationDetails(reservationDTO, roomDTOAvailable);
 
-        if(update){
-            showAlert("Reservation Management"
-                    , "Successfully Updated Reservation Details !"
-                    , SelectType.INFORMATION);
-            setDefault();
-        }else{
-            setDefault();
-            showAlert("Reservation Management"
-                    , "Something Wrong !"
-                    , SelectType.ERROR);
+            if (update) {
+                showAlert("Reservation Management"
+                        , "Successfully Updated Reservation Details !"
+                        , SelectType.INFORMATION);
+                setDefault();
+            } else {
+                setDefault();
+                showAlert("Reservation Management"
+                        , "Something Wrong !"
+                        , SelectType.ERROR);
+            }
+            reservationidtxt.setDisable(false);
+        }catch(Exception e){
+            throw e;
         }
-        reservationidtxt.setDisable(false);
     }
 
     @FXML
@@ -227,12 +234,59 @@ public class ManagereservationformContorller implements Initializable {
         INFORMATION,WARNING,ERROR
     }
 
+    private enum SelectTypeForCalculateRoom{
+        SAVE,UPDATE,DELETE
+    }
+
     private String getCurrentDateTime(){
         String formattedTimestamp;
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return (formattedTimestamp = dateFormat.format(timestamp));
+    }
+
+    private RoomDTO CalculateAvailableRoom (RoomDTO room,SelectTypeForCalculateRoom select){
+        if(select==SelectTypeForCalculateRoom.SAVE) {
+            RoomDTO roomDTO = new RoomDTO();
+
+            int total = room.getQty();
+            total = (total - 1);
+
+            roomDTO.setRoomTypeId(room.getRoomTypeId());
+            roomDTO.setType(room.getType());
+            roomDTO.setKeyMoney(room.getKeyMoney());
+            roomDTO.setQty(total);
+
+            return roomDTO;
+        }else if(select==SelectTypeForCalculateRoom.UPDATE){
+            ReservationDTO reserversiondetails = reservationBo.getReservationDetails(reservationidtxt.getText());
+            if(roomtypeidtxt.getText().equals(reserversiondetails.getRoom().getRoomTypeId())){
+                RoomDTO roomDTO = new RoomDTO();
+
+                roomDTO.setRoomTypeId(room.getRoomTypeId());
+                roomDTO.setType(room.getType());
+                roomDTO.setKeyMoney(room.getKeyMoney());
+                roomDTO.setQty(room.getQty());
+
+                return roomDTO;
+            }else{
+                RoomBo roomBo = BoFactory.getBoFactory().getBo(BoFactory.BoType.ROOM);
+                RoomDTO roomDTOupdate = new RoomDTO();
+
+                int total = room.getQty();
+                total = (total - 1);
+
+                roomDTOupdate.setRoomTypeId(room.getRoomTypeId());
+                roomDTOupdate.setType(room.getType());
+                roomDTOupdate.setKeyMoney(room.getKeyMoney());
+                roomDTOupdate.setQty(total);
+
+                roomBo.UpdateRoom(roomDTOupdate);
+
+                //////////Continue//////////////////////////////////////
+            }
+        }
     }
 
 }
