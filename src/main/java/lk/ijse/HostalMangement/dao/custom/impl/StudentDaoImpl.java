@@ -4,6 +4,9 @@ import lk.ijse.HostalMangement.dao.custom.StudentDao;
 import lk.ijse.HostalMangement.entity.StudentEntity;
 import org.hibernate.Session;
 
+import org.hibernate.query.Query;
+import java.util.List;
+
 public class StudentDaoImpl implements StudentDao {
 
     private Session session;
@@ -33,5 +36,14 @@ public class StudentDaoImpl implements StudentDao {
     @Override
     public void SetSession(Session session) {
         this.session = session;
+    }
+
+    @Override
+    public List<StudentEntity> getAllStudentDetails() {
+        String hql = "FROM StudentEntity";
+        Query query = session.createQuery(hql);
+        List list = query.list();
+        session.close();
+        return list;
     }
 }

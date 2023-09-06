@@ -111,4 +111,18 @@ public class RoomBoImpl implements RoomBo {
             throw e;
         }
     }
+
+    @Override
+    public List<RoomEntity> getRoomDetails() {
+        Session session = SessionFactoryConfig.getInstance().getSession();
+        try{
+            roomDao.SetSession(session);
+            List<RoomEntity>room = roomDao.getRoomDetails();
+            session.close();
+            return room;
+        }catch(Exception e){
+            e.printStackTrace();
+            throw e;
+        }
+    }
 }

@@ -53,4 +53,12 @@ public class RoomDaoImpl implements RoomDao {
         List list = query.list();
         return list;
     }
+
+    @Override
+    public List<RoomEntity> getRoomDetails() {
+        String hql = "FROM RoomEntity";
+        Query query = session.createQuery(hql);
+        List list = query.list();
+        return list;
+    }
 }

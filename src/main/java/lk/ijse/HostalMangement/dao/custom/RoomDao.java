@@ -11,4 +11,5 @@ public interface RoomDao extends CrudDao<RoomEntity,String> {
     void SetSession(Session session);
     List<String> getRoomType();
     List<String> getRoomTypeID();
+    List<RoomEntity> getRoomDetails();
 }

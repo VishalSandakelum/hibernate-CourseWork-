@@ -16,6 +16,8 @@ import java.util.List;
 public class StudentDTO {
 
     private String StudentId;
+    private String Name;
+    private String LastName;
     private Name FullName;
     private String Address;
     private String ContactNumber;

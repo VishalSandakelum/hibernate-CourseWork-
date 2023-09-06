@@ -9,6 +9,8 @@ import lk.ijse.HostalMangement.entity.StudentEntity;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.util.List;
+
 public class StudentBoImpl implements StudentBo {
 
     StudentDao studentDao = DaoFactory.getDaoFactory().getDao(DaoFactory.DaoType.STUDENT);
@@ -78,6 +80,23 @@ public class StudentBoImpl implements StudentBo {
             transaction.rollback();
             session.close();
             return false;
+        }
+    }
+
+    @Override
+    public List<StudentEntity> getAllStudent() {
+        Session session = SessionFactoryConfig.getInstance().getSession();
+        try{
+            studentDao.SetSession(session);
+            List<StudentEntity>student = studentDao.getAllStudentDetails();
+            for(StudentEntity studentEntity : student){
+                System.out.println(studentEntity.getStudentId());
+            }
+            session.close();
+            return student;
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
         }
     }
 }

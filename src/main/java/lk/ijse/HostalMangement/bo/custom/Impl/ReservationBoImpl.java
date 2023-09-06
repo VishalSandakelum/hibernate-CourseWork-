@@ -76,12 +76,14 @@ public class ReservationBoImpl implements ReservationBo {
     }
 
     @Override
-    public boolean DeleteReservationDetails(ReservationDTO reservationDTO) {
+    public boolean DeleteReservationDetails(ReservationDTO reservationDTO,RoomDTO roomDTO) {
         Session session = SessionFactoryConfig.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
         try{
             reservationDao.SetSession(session);
+            roomDao.SetSession(session);
             reservationDao.Delete(reservationDTO.ToEntity());
+            roomDao.Update(roomDTO.ToEntity());
             transaction.commit();
             session.close();
             return true;
@@ -117,6 +119,20 @@ public class ReservationBoImpl implements ReservationBo {
             RoomEntity roomEntity = room.get(0);
             session.close();
             return roomEntity.ToDto();
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    @Override
+    public List<ReservationEntity> getReservationDetails() {
+        Session session = SessionFactoryConfig.getInstance().getSession();
+        try{
+            reservationDao.SetSession(session);
+            List<ReservationEntity>reservation = reservationDao.getReservationDetails();
+            session.close();
+            return reservation;
         }catch (Exception e){
             e.printStackTrace();
             throw e;

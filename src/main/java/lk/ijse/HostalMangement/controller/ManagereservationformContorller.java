@@ -2,14 +2,22 @@ package lk.ijse.HostalMangement.controller;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.util.Duration;
 import lk.ijse.HostalMangement.bo.BoFactory;
 import lk.ijse.HostalMangement.bo.custom.ReservationBo;
 import lk.ijse.HostalMangement.bo.custom.RoomBo;
@@ -17,6 +25,7 @@ import lk.ijse.HostalMangement.dto.ReservationDTO;
 import lk.ijse.HostalMangement.dto.RoomDTO;
 import lk.ijse.HostalMangement.dto.StudentDTO;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -48,12 +57,57 @@ public class ManagereservationformContorller implements Initializable {
 
     @FXML
     private void tableopenbtnonAction(ActionEvent actionEvent) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/managereservationdetailtableform.fxml"));
+        Parent root1 = null;
+        try {
+            root1 = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Stage stage = new Stage();
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.setScene(new Scene(root1));
+        Stage currentStage = (Stage) tableopenbtn.getScene().getWindow();
+        stage.setY(currentStage.getY()+80);
+        stage.setX(currentStage.getX()+80);
 
+        stage.show();
+
+
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1.20), root1);
+        translateTransition.setToX(10);
+
+        translateTransition.play();
     }
 
     @FXML
     private void homepagebtnonAction(ActionEvent actionEvent) {
+        Stage currentStage = (Stage) homepagebtn.getScene().getWindow();
+        double yaxics = currentStage.getY()+50;
+        double xaxics = currentStage.getX()+50;
 
+        double middleY = currentStage.getY() + currentStage.getHeight() / 2;
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1.2)
+                , currentStage.getScene().getRoot());
+        translateTransition.setToY(middleY);
+        translateTransition.setOnFinished(event -> currentStage.close());
+        translateTransition.play();
+
+        new Thread() {
+            public void run() {
+                try {
+                    Thread.sleep(1150);
+                    Platform.runLater(() -> {
+                        try {
+                            PageLauncher.OpenPageWithLocation("/view/homepageform.fxml",yaxics,xaxics);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
+                } catch (Exception e) {
+                }
+            }
+        }.start();
     }
 
     @FXML
@@ -147,6 +201,9 @@ public class ManagereservationformContorller implements Initializable {
         studentDTO.setStudentId(studentidtxt.getText());
         roomDTO.setRoomTypeId(roomtypeidtxt.getText());
 
+        StudentDTO student = reservationBo.GetStudentName(studentidtxt.getText());
+        RoomDTO room = reservationBo.GetKeyMoney(roomtypeidtxt.getText());
+
         java.time.LocalDate selectedDate = datetxt.getValue();
 
         reservationDTO.setReservationId(reservationidtxt.getText());
@@ -154,21 +211,28 @@ public class ManagereservationformContorller implements Initializable {
         reservationDTO.setRoom(roomDTO.ToEntity());
         reservationDTO.setLastDate(selectedDate.toString());
         reservationDTO.setStatus(statustxt.getValue());
+        reservationDTO.setStudentName(student.getFullName().getFirstName());
+        reservationDTO.setKeyMoney(room.getKeyMoney());
 
-        boolean update = reservationBo.DeleteReservationDetails(reservationDTO);
+        try {
+            RoomDTO roomDTOAvailable = CalculateAvailableRoom(room, SelectTypeForCalculateRoom.DELETE);
+            boolean update = reservationBo.DeleteReservationDetails(reservationDTO,roomDTOAvailable);
 
-        if(update){
-            showAlert("Reservation Management"
-                    , "Successfully Deleted Reservation Details !"
-                    , SelectType.INFORMATION);
-            setDefault();
-        }else{
-            setDefault();
-            showAlert("Reservation Management"
-                    , "Something Wrong !"
-                    , SelectType.ERROR);
+            if (update) {
+                showAlert("Reservation Management"
+                        , "Successfully Deleted Reservation Details !"
+                        , SelectType.INFORMATION);
+                setDefault();
+            } else {
+                setDefault();
+                showAlert("Reservation Management"
+                        , "Something Wrong !"
+                        , SelectType.ERROR);
+            }
+            reservationidtxt.setDisable(false);
+        }catch (Exception e){
+            throw e;
         }
-        reservationidtxt.setDisable(false);
     }
 
     @FXML
@@ -284,8 +348,28 @@ public class ManagereservationformContorller implements Initializable {
 
                 roomBo.UpdateRoom(roomDTOupdate);
 
-                //////////Continue//////////////////////////////////////
+                RoomDTO roomDTOReturn = new RoomDTO();
+
+                roomDTOReturn.setRoomTypeId(reserversiondetails.getRoom().getRoomTypeId());
+                roomDTOReturn.setKeyMoney(reserversiondetails.getRoom().getKeyMoney());
+                roomDTOReturn.setQty((reserversiondetails.getRoom().getQty()+1));
+                roomDTOReturn.setType(reserversiondetails.getRoom().getType());
+
+                return roomDTOReturn;
             }
+        }else if (select==SelectTypeForCalculateRoom.DELETE){
+            ReservationDTO reserversiondetails = reservationBo.getReservationDetails(reservationidtxt.getText());
+
+            RoomDTO roomDTOReturn = new RoomDTO();
+
+            roomDTOReturn.setRoomTypeId(reserversiondetails.getRoom().getRoomTypeId());
+            roomDTOReturn.setKeyMoney(reserversiondetails.getRoom().getKeyMoney());
+            roomDTOReturn.setQty((reserversiondetails.getRoom().getQty()+1));
+            roomDTOReturn.setType(reserversiondetails.getRoom().getType());
+
+            return roomDTOReturn;
+        }else{
+            return null;
         }
     }
 

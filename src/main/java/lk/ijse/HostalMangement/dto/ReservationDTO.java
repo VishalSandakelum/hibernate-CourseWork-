@@ -20,7 +20,9 @@ public class ReservationDTO {
     private String LastDate;
     private Timestamp OrderDateTime;
     private StudentEntity Student;
+    private String StudentID;
     private RoomEntity Room;
+    private String RoomTypeID;
     private String Status;
     private String StudentName;
     private String KeyMoney;
