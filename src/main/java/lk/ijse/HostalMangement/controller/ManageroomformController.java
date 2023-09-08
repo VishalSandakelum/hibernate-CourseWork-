@@ -26,6 +26,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ManageroomformController implements Initializable {
     public Button tableopenbtn;
@@ -47,6 +49,9 @@ public class ManageroomformController implements Initializable {
     private List<String> dataList = new ArrayList<>();
 
     private RoomBo roomBo = BoFactory.getBoFactory().getBo(BoFactory.BoType.ROOM);
+
+    private static final String NUMBER_PATTERN = "^[01][0-9]{9}$";
+    private static final String LETTER_PATTERN = "^[A-Za-z]+$";
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -135,28 +140,32 @@ public class ManageroomformController implements Initializable {
     private void savebtnonAction(ActionEvent actionEvent) {
         RoomDTO roomDTO = new RoomDTO();
 
-        roomDTO.setRoomTypeId(roomtypeidSave.getText());
-        if(roomtypeSave.isVisible()){
-            roomDTO.setType(roomtypeSave.getText());
-        }else{
-            roomDTO.setType(Type.getValue());
-        }
-        roomDTO.setKeyMoney(keymoneytxt.getText());
-        roomDTO.setQty(Integer.parseInt(qtytxt.getText()));
+        if(validateNumber(keymoneytxt.getText(),keymoneytxt)
+                &validateNumber(qtytxt.getText(),qtytxt)) {
 
-        String save = roomBo.SaveRoom(roomDTO);
-        if(save.equals("-1")){
-            showAlert("Room Management"
-                    ,"Something Wrong !"+"\n"+"Duplicate ID Entry"
-                    , SelectType.ERROR);
-            setDefault();
-        }else{
-            showAlert("Room Management"
-                    ,"Successfully Room Details Saved !"
-                    , SelectType.INFORMATION);
-            setDefault();
-            setDataForComboBox(SelectType.ROOM_TYPE_ID);
-            setDataForComboBox(SelectType.TYPE);
+            roomDTO.setRoomTypeId(roomtypeidSave.getText());
+            if (roomtypeSave.isVisible()) {
+                roomDTO.setType(roomtypeSave.getText());
+            } else {
+                roomDTO.setType(Type.getValue());
+            }
+            roomDTO.setKeyMoney(keymoneytxt.getText());
+            roomDTO.setQty(Integer.parseInt(qtytxt.getText()));
+
+            String save = roomBo.SaveRoom(roomDTO);
+            if (save.equals("-1")) {
+                showAlert("Room Management"
+                        , "Something Wrong !" + "\n" + "Duplicate ID Entry"
+                        , SelectType.ERROR);
+                setDefault();
+            } else {
+                showAlert("Room Management"
+                        , "Successfully Room Details Saved !"
+                        , SelectType.INFORMATION);
+                setDefault();
+                setDataForComboBox(SelectType.ROOM_TYPE_ID);
+                setDataForComboBox(SelectType.TYPE);
+            }
         }
     }
 
@@ -164,57 +173,66 @@ public class ManageroomformController implements Initializable {
     private void updatebtnonAction(ActionEvent actionEvent) {
         RoomDTO roomDTO = new RoomDTO();
 
-        roomDTO.setRoomTypeId(roomtypeidtxt.getValue());
-        if(roomtypeSave.isVisible()){
-            roomDTO.setType(roomtypeSave.getText());
-        }else{
-            roomDTO.setType(Type.getValue());
-        }
-        roomDTO.setKeyMoney(keymoneytxt.getText());
-        roomDTO.setQty(Integer.parseInt(qtytxt.getText()));
+        if(validateNumber(keymoneytxt.getText(),keymoneytxt)
+                &validateNumber(qtytxt.getText(),qtytxt)) {
 
-        boolean update = roomBo.UpdateRoom(roomDTO);
-        if(update==true){
-            showAlert("Room Management"
-                    ,"Successfully Room Details Updated !"
-                    , SelectType.INFORMATION);
-            setDefault();
-            setDataForComboBox(SelectType.ROOM_TYPE_ID);
-            setDataForComboBox(SelectType.TYPE);
-        }else{
-            showAlert("Room Management"
-                    ,"Something Wrong !"
-                    , SelectType.ERROR);
-            setDefault();
+            roomDTO.setRoomTypeId(roomtypeidtxt.getValue());
+            if (roomtypeSave.isVisible()) {
+                roomDTO.setType(roomtypeSave.getText());
+            } else {
+                roomDTO.setType(Type.getValue());
+            }
+            roomDTO.setKeyMoney(keymoneytxt.getText());
+            roomDTO.setQty(Integer.parseInt(qtytxt.getText()));
+
+            boolean update = roomBo.UpdateRoom(roomDTO);
+            if (update == true) {
+                showAlert("Room Management"
+                        , "Successfully Room Details Updated !"
+                        , SelectType.INFORMATION);
+                setDefault();
+                setDataForComboBox(SelectType.ROOM_TYPE_ID);
+                setDataForComboBox(SelectType.TYPE);
+            } else {
+                showAlert("Room Management"
+                        , "Something Wrong !"
+                        , SelectType.ERROR);
+                setDefault();
+            }
+            roomtypeidtxt.setDisable(false);
         }
-        roomtypeidtxt.setDisable(false);
     }
 
     @FXML
     private void deletebtnonAction(ActionEvent actionEvent) {
         RoomDTO roomDTO = new RoomDTO();
 
-        roomDTO.setRoomTypeId(roomtypeidtxt.getValue());
-        roomDTO.setType(Type.getValue());
-        roomDTO.setKeyMoney(keymoneytxt.getText());
-        roomDTO.setQty(Integer.parseInt(qtytxt.getText()));
+        if(validateNumber(keymoneytxt.getText(),keymoneytxt)
+                &validateNumber(qtytxt.getText(),qtytxt)
+                &validateLetters(Type.getValue(),Type)) {
 
-        try {
-            roomBo.DeleteRoom(roomDTO);
+            roomDTO.setRoomTypeId(roomtypeidtxt.getValue());
+            roomDTO.setType(Type.getValue());
+            roomDTO.setKeyMoney(keymoneytxt.getText());
+            roomDTO.setQty(Integer.parseInt(qtytxt.getText()));
 
-            showAlert("Room Management"
-                    ,"Successfully Room Details Deleted !"
-                    , SelectType.INFORMATION);
-            setDefault();
-            setDataForComboBox(SelectType.ROOM_TYPE_ID);
-            setDataForComboBox(SelectType.TYPE);
-        }catch (Exception e){
-            showAlert("Room Management"
-                    ,"Something Wrong !"
-                    , SelectType.ERROR);
-            setDefault();
+            try {
+                roomBo.DeleteRoom(roomDTO);
+
+                showAlert("Room Management"
+                        , "Successfully Room Details Deleted !"
+                        , SelectType.INFORMATION);
+                setDefault();
+                setDataForComboBox(SelectType.ROOM_TYPE_ID);
+                setDataForComboBox(SelectType.TYPE);
+            } catch (Exception e) {
+                showAlert("Room Management"
+                        , "Something Wrong !"
+                        , SelectType.ERROR);
+                setDefault();
+            }
+            roomtypeidtxt.setDisable(false);
         }
-        roomtypeidtxt.setDisable(false);
     }
 
     @FXML
@@ -314,6 +332,26 @@ public class ManageroomformController implements Initializable {
 
     private enum SelectType{
         ROOM_TYPE_ID,TYPE,INFORMATION,WARNING,ERROR
+    }
+
+    public static boolean validateNumber(String number,JFXTextField field) {
+        Pattern pattern = Pattern.compile(NUMBER_PATTERN);
+        Matcher matcher = pattern.matcher(number);
+        boolean valid =  matcher.matches();
+        if(valid==false){
+            field.requestFocus();
+        }
+        return valid;
+    }
+
+    public static boolean validateLetters(String input,JFXComboBox field) {
+        Pattern pattern = Pattern.compile(LETTER_PATTERN);
+        Matcher matcher = pattern.matcher(input);
+        boolean valid = matcher.matches();
+        if(valid==false){
+            field.requestFocus();
+        }
+        return valid;
     }
 
 }

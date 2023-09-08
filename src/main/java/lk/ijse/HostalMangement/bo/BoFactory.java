@@ -1,5 +1,6 @@
 package lk.ijse.HostalMangement.bo;
 
+import lk.ijse.HostalMangement.bo.custom.Impl.LoginBoImpl;
 import lk.ijse.HostalMangement.bo.custom.Impl.ReservationBoImpl;
 import lk.ijse.HostalMangement.bo.custom.Impl.RoomBoImpl;
 import lk.ijse.HostalMangement.bo.custom.Impl.StudentBoImpl;
@@ -10,6 +11,7 @@ public class BoFactory {
     private static StudentBoImpl studentBoImpl;
     private static ReservationBoImpl reservationBoImpl;
     private static RoomBoImpl roomBoImpl;
+    private static LoginBoImpl loginBoImpl;
 
     private BoFactory(){}
 
@@ -18,7 +20,7 @@ public class BoFactory {
     }
 
     public enum BoType {
-        STUDENT,ROOM,RESERVATION
+        STUDENT,ROOM,RESERVATION,LOGIN
     }
 
     public <SuperBo>SuperBo getBo(BoType boType){
@@ -29,6 +31,8 @@ public class BoFactory {
                 return (SuperBo) ((roomBoImpl==null) ? roomBoImpl = new RoomBoImpl() : roomBoImpl);
             case RESERVATION:
                 return (SuperBo) ((reservationBoImpl == null) ? reservationBoImpl = new ReservationBoImpl() : reservationBoImpl);
+            case LOGIN:
+                return (SuperBo) ((loginBoImpl == null) ? loginBoImpl = new LoginBoImpl():loginBoImpl);
             default:
                 return null;
         }

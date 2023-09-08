@@ -16,4 +16,5 @@ public interface ReservationBo extends SuperBo {
     StudentDTO GetStudentName(String ID);
     RoomDTO GetKeyMoney(String ID);
     List<ReservationEntity> getReservationDetails();
+    List<ReservationEntity> getAllPayDetails();
 }

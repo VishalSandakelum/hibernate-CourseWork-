@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -23,6 +24,8 @@ import lk.ijse.HostalMangement.embedded.Name;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ManagestudentformController {
     public Button tableopenbtn;
@@ -40,6 +43,9 @@ public class ManagestudentformController {
     public JFXTextField adresstxt;
 
     private static String checkGender;
+
+    private static final String NUMBER_PATTERN = "^[01][0-9]{9}$";
+    private static final String LETTER_PATTERN = "^[A-Za-z]+$";
 
     @FXML
     private void tableopenbtnonAction(ActionEvent actionEvent) {
@@ -118,36 +124,42 @@ public class ManagestudentformController {
         StudentDTO student = new StudentDTO();
         Name fullname = new Name();
 
-        fullname.setFirstName(studentFirstNametxt.getText());
-        fullname.setLastName(studentLastNametxt.getText());
+        if(validateLetters(studentFirstNametxt.getText(),studentFirstNametxt)&
+                validateLetters(studentLastNametxt.getText(),studentLastNametxt)&
+                validateLetters(adresstxt.getText(),adresstxt)&
+                validateNumber(contactNumbertxt.getText(),contactNumbertxt)) {
 
-        java.time.LocalDate selectedDate = dobtxt.getValue();
+            fullname.setFirstName(studentFirstNametxt.getText());
+            fullname.setLastName(studentLastNametxt.getText());
 
-        student.setStudentId(studentIdtxt.getText());
-        student.setFullName(fullname);
-        student.setAddress(adresstxt.getText());
-        student.setContactNumber(contactNumbertxt.getText());
-        student.setDateOfBirth(selectedDate.toString());
+            java.time.LocalDate selectedDate = dobtxt.getValue();
 
-        if(malecheck.isSelected()){
-            checkGender = "Male";
-        }else{
-            checkGender = "Female";
+            student.setStudentId(studentIdtxt.getText());
+            student.setFullName(fullname);
+            student.setAddress(adresstxt.getText());
+            student.setContactNumber(contactNumbertxt.getText());
+            student.setDateOfBirth(selectedDate.toString());
+
+            if (malecheck.isSelected()) {
+                checkGender = "Male";
+            } else {
+                checkGender = "Female";
+            }
+            student.setGender(checkGender);
+
+            StudentBo studentBo = BoFactory.getBoFactory().getBo(BoFactory.BoType.STUDENT);
+            String saveId = studentBo.SaveStudent(student);
+            if (saveId.equals("-1")) {
+                showAlert("Student Management"
+                        , "Something Wrong !" + "\n" + "Duplicate ID Entry"
+                        , SelectType.ERROR);
+            } else {
+                showAlert("Student Management"
+                        , "Successfully Student Saved !"
+                        , SelectType.INFORMATION);
+            }
+            setDefault();
         }
-        student.setGender(checkGender);
-
-        StudentBo studentBo = BoFactory.getBoFactory().getBo(BoFactory.BoType.STUDENT);
-        String saveId = studentBo.SaveStudent(student);
-        if(saveId.equals("-1")){
-            showAlert("Student Management"
-                    ,"Something Wrong !"+"\n"+"Duplicate ID Entry"
-                    ,SelectType.ERROR);
-        }else{
-            showAlert("Student Management"
-                    ,"Successfully Student Saved !"
-                    ,SelectType.INFORMATION);
-        }
-        setDefault();
     }
 
     @FXML
@@ -181,38 +193,44 @@ public class ManagestudentformController {
         StudentDTO studentDTO = new StudentDTO();
         Name fullName = new Name();
 
-        fullName.setFirstName(studentFirstNametxt.getText());
-        fullName.setLastName(studentLastNametxt.getText());
+        if(validateLetters(studentFirstNametxt.getText(),studentFirstNametxt)&
+                validateLetters(studentLastNametxt.getText(),studentLastNametxt)&
+                validateLetters(adresstxt.getText(),adresstxt)&
+                validateNumber(contactNumbertxt.getText(),contactNumbertxt)) {
 
-        java.time.LocalDate selectedDate = dobtxt.getValue();
+            fullName.setFirstName(studentFirstNametxt.getText());
+            fullName.setLastName(studentLastNametxt.getText());
 
-        studentDTO.setStudentId(studentIdtxt.getText());
-        studentDTO.setFullName(fullName);
-        studentDTO.setAddress(adresstxt.getText());
-        studentDTO.setContactNumber(contactNumbertxt.getText());
-        studentDTO.setDateOfBirth(selectedDate.toString());
+            java.time.LocalDate selectedDate = dobtxt.getValue();
 
-        if(malecheck.isSelected()){
-            checkGender = "Male";
-        }else{
-            checkGender = "Female";
+            studentDTO.setStudentId(studentIdtxt.getText());
+            studentDTO.setFullName(fullName);
+            studentDTO.setAddress(adresstxt.getText());
+            studentDTO.setContactNumber(contactNumbertxt.getText());
+            studentDTO.setDateOfBirth(selectedDate.toString());
+
+            if (malecheck.isSelected()) {
+                checkGender = "Male";
+            } else {
+                checkGender = "Female";
+            }
+            studentDTO.setGender(checkGender);
+
+            StudentBo studentBo = BoFactory.getBoFactory().getBo(BoFactory.BoType.STUDENT);
+            try {
+                studentBo.UpdateStudent(studentDTO);
+                showAlert("Student Management"
+                        , "Successfully Student Details Updated !"
+                        , SelectType.INFORMATION);
+            } catch (Exception e) {
+                showAlert("Student Management"
+                        , "Something Wrong !" + "\n" + studentIdtxt.getText()
+                                + " Student Details Not Updated !"
+                        , SelectType.ERROR);
+            }
+            setDefault();
+            studentIdtxt.setDisable(false);
         }
-        studentDTO.setGender(checkGender);
-
-        StudentBo studentBo = BoFactory.getBoFactory().getBo(BoFactory.BoType.STUDENT);
-        try{
-            studentBo.UpdateStudent(studentDTO);
-            showAlert("Student Management"
-                    ,"Successfully Student Details Updated !"
-                    ,SelectType.INFORMATION);
-        }catch(Exception e){
-            showAlert("Student Management"
-                    ,"Something Wrong !"+"\n"+studentIdtxt.getText()
-                            +" Student Details Not Updated !"
-                    ,SelectType.ERROR);
-        }
-        setDefault();
-        studentIdtxt.setDisable(false);
 
     }
 
@@ -221,37 +239,43 @@ public class ManagestudentformController {
         StudentDTO studentDTO = new StudentDTO();
         Name fullName = new Name();
 
-        fullName.setFirstName(studentFirstNametxt.getText());
-        fullName.setLastName(studentLastNametxt.getText());
+        if(validateLetters(studentFirstNametxt.getText(),studentFirstNametxt)&
+                validateLetters(studentLastNametxt.getText(),studentLastNametxt)&
+                validateLetters(adresstxt.getText(),adresstxt)&
+                validateNumber(contactNumbertxt.getText(),contactNumbertxt)) {
 
-        java.time.LocalDate selectedDate = dobtxt.getValue();
+            fullName.setFirstName(studentFirstNametxt.getText());
+            fullName.setLastName(studentLastNametxt.getText());
 
-        studentDTO.setStudentId(studentIdtxt.getText());
-        studentDTO.setFullName(fullName);
-        studentDTO.setAddress(adresstxt.getText());
-        studentDTO.setContactNumber(contactNumbertxt.getText());
-        studentDTO.setDateOfBirth(selectedDate.toString());
+            java.time.LocalDate selectedDate = dobtxt.getValue();
 
-        if(malecheck.isSelected()){
-            checkGender = "Male";
-        }else{
-            checkGender = "Female";
+            studentDTO.setStudentId(studentIdtxt.getText());
+            studentDTO.setFullName(fullName);
+            studentDTO.setAddress(adresstxt.getText());
+            studentDTO.setContactNumber(contactNumbertxt.getText());
+            studentDTO.setDateOfBirth(selectedDate.toString());
+
+            if (malecheck.isSelected()) {
+                checkGender = "Male";
+            } else {
+                checkGender = "Female";
+            }
+            studentDTO.setGender(checkGender);
+
+            StudentBo studentBo = BoFactory.getBoFactory().getBo(BoFactory.BoType.STUDENT);
+            try {
+                studentBo.DeleteStudent(studentDTO);
+                showAlert("Student Management"
+                        , "Successfully Student Details Deleted !"
+                        , SelectType.INFORMATION);
+            } catch (Exception e) {
+                showAlert("Student Management"
+                        , "Something Wrong !"
+                        , SelectType.ERROR);
+            }
+            setDefault();
+            studentIdtxt.setDisable(false);
         }
-        studentDTO.setGender(checkGender);
-
-        StudentBo studentBo = BoFactory.getBoFactory().getBo(BoFactory.BoType.STUDENT);
-        try{
-            studentBo.DeleteStudent(studentDTO);
-            showAlert("Student Management"
-                    ,"Successfully Student Details Deleted !"
-                    ,SelectType.INFORMATION);
-        }catch (Exception e){
-            showAlert("Student Management"
-                    ,"Something Wrong !"
-                    ,SelectType.ERROR);
-        }
-        setDefault();
-        studentIdtxt.setDisable(false);
     }
 
     private void setDefault(){
@@ -285,6 +309,26 @@ public class ManagestudentformController {
 
     private enum SelectType {
         INFORMATION,WARNING,ERROR
+    }
+
+    public static boolean validateNumber(String number,JFXTextField field) {
+        Pattern pattern = Pattern.compile(NUMBER_PATTERN);
+        Matcher matcher = pattern.matcher(number);
+        boolean valid =  matcher.matches();
+        if(valid==false){
+            field.requestFocus();
+        }
+        return valid;
+    }
+
+    public static boolean validateLetters(String input,JFXTextField field) {
+        Pattern pattern = Pattern.compile(LETTER_PATTERN);
+        Matcher matcher = pattern.matcher(input);
+        boolean valid = matcher.matches();
+        if(valid==false){
+            field.requestFocus();
+        }
+        return valid;
     }
 
 }

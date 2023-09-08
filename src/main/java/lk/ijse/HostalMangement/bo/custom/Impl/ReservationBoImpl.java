@@ -3,6 +3,7 @@ package lk.ijse.HostalMangement.bo.custom.Impl;
 import lk.ijse.HostalMangement.bo.custom.ReservationBo;
 import lk.ijse.HostalMangement.config.SessionFactoryConfig;
 import lk.ijse.HostalMangement.dao.DaoFactory;
+import lk.ijse.HostalMangement.dao.custom.QueryDao;
 import lk.ijse.HostalMangement.dao.custom.ReservationDao;
 import lk.ijse.HostalMangement.dao.custom.RoomDao;
 import lk.ijse.HostalMangement.dto.ReservationDTO;
@@ -20,6 +21,7 @@ public class ReservationBoImpl implements ReservationBo {
 
     ReservationDao reservationDao = DaoFactory.getDaoFactory().getDao(DaoFactory.DaoType.RESERVATION);
     RoomDao roomDao = DaoFactory.getDaoFactory().getDao(DaoFactory.DaoType.ROOM);
+    QueryDao queryDao = DaoFactory.getDaoFactory().getDao(DaoFactory.DaoType.LOGIN);
 
     @Override
     public String SaveReservationDetails(ReservationDTO reservationDTO,RoomDTO roomDTO) {
@@ -133,6 +135,20 @@ public class ReservationBoImpl implements ReservationBo {
             List<ReservationEntity>reservation = reservationDao.getReservationDetails();
             session.close();
             return reservation;
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    @Override
+    public List<ReservationEntity> getAllPayDetails() {
+        Session session = SessionFactoryConfig.getInstance().getSession();
+        try{
+            queryDao.SetSession(session);
+            List<ReservationEntity>getPayDetails = queryDao.getAllPendingPayDetails();
+            session.close();
+            return getPayDetails;
         }catch (Exception e){
             e.printStackTrace();
             throw e;

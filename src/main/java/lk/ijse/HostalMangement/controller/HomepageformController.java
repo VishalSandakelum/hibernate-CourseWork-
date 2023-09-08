@@ -1,13 +1,28 @@
 package lk.ijse.HostalMangement.controller;
 
 import javafx.animation.ScaleTransition;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
+import lk.ijse.HostalMangement.bo.BoFactory;
+import lk.ijse.HostalMangement.bo.custom.ReservationBo;
+import lk.ijse.HostalMangement.dto.ReservationDTO;
+import lk.ijse.HostalMangement.entity.ReservationEntity;
 
-public class HomepageformController {
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
+
+public class HomepageformController implements Initializable {
     public Pane roompane;
     public Pane studentpane;
     public Pane reservationpane;
@@ -20,96 +35,133 @@ public class HomepageformController {
     public Button notificationbtn;
     public Button availablebtn;
     public Button seettingbtn;
+    public TableView tableview;
+    public TableColumn reservationidrow;
+    public TableColumn roomidrow;
+    public TableColumn studentidrow;
+    public TableColumn studentnamerow;
+    public TableColumn statusrow;
+    public TableColumn daterow;
+    public Button confirmbtn;
+    public Button cancelbtn;
 
     /*All Action On Here.*/
 
-    public void addstudentbtnonAction(ActionEvent actionEvent) {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        try {
+            setDataForTable();
+            setCellValueFactory();
+        }catch(Exception e){}
+    }
+
+    @FXML
+    private void addstudentbtnonAction(ActionEvent actionEvent) {
         PageLauncher.OpenPageWithAnimation(addstudentbtn,"/view/managestudentform.fxml",0, 0);
     }
 
-    public void addroombtnonaction(ActionEvent actionEvent) {
+    @FXML
+    private void addroombtnonaction(ActionEvent actionEvent) {
         PageLauncher.OpenPageWithAnimation(addroombtn,"/view/manageroomform.fxml",0, 0);
     }
 
-    public void managereservationbtnonAction(ActionEvent actionEvent) {
+    @FXML
+    private void managereservationbtnonAction(ActionEvent actionEvent) {
         PageLauncher.OpenPageWithAnimation(managereservationbtn,"/view/managereservationform.fxml",0, 0);
     }
 
-    public void paneopenbtnAction(ActionEvent actionEvent) {
+    @FXML
+    private void paneopenbtnAction(ActionEvent actionEvent) {
         optionpane.setVisible(true);
     }
 
-    public void backbtnonAction(ActionEvent actionEvent) {
+    @FXML
+    private void backbtnonAction(ActionEvent actionEvent) {
         optionpane.setVisible(false);
     }
 
-    public void notificationbtnonAction(ActionEvent actionEvent) {
+    @FXML
+    private void notificationbtnonAction(ActionEvent actionEvent) {
 
     }
 
-    public void availablebtnonAction(ActionEvent actionEvent) {
+    @FXML
+    private void availablebtnonAction(ActionEvent actionEvent) {
 
     }
 
-    public void seettingbtnonAction(ActionEvent actionEvent) {
+    @FXML
+    private void seettingbtnonAction(ActionEvent actionEvent) {
 
     }
 
     /*Mouse Entetrd Action In Here.*/
 
-    public void addstudentonMouseenterd(MouseEvent mouseEvent) {
+    @FXML
+    private void addstudentonMouseenterd(MouseEvent mouseEvent) {
         studentpane.setVisible(true);
         VisiblePane(studentpane);
         BtnAnimatioStart(addstudentbtn);
     }
 
-    public void addroomonMouseenterd(MouseEvent mouseEvent) {
+    @FXML
+    private void addroomonMouseenterd(MouseEvent mouseEvent) {
         roompane.setVisible(true);
         VisiblePane(roompane);
         BtnAnimatioStart(addroombtn);
     }
 
-    public void managereservationonMouseenterd(MouseEvent mouseEvent) {
+    @FXML
+    private void managereservationonMouseenterd(MouseEvent mouseEvent) {
         reservationpane.setVisible(true);
         VisiblePane(reservationpane);
         BtnAnimatioStart(managereservationbtn);
     }
 
-    public void notificationbtnonMouseenterd(MouseEvent mouseEvent) {
+    @FXML
+    private void notificationbtnonMouseenterd(MouseEvent mouseEvent) {
         BtnAnimatioStart(notificationbtn);
     }
 
-    public void availablebtnonMouseenterd(MouseEvent mouseEvent) {
+    @FXML
+    private void availablebtnonMouseenterd(MouseEvent mouseEvent) {
         BtnAnimatioStart(availablebtn);
     }
 
-    public void settingMouseenterd(MouseEvent mouseEvent) {
+    @FXML
+    private void settingMouseenterd(MouseEvent mouseEvent) {
         BtnAnimatioStart(seettingbtn);
     }
 
     /*Mouse Exited Action On Here.*/
 
-    public void addstudentMouseexited(MouseEvent mouseEvent) {
+    @FXML
+    private void addstudentMouseexited(MouseEvent mouseEvent) {
         BtnAnimationStop(addstudentbtn);
     }
 
-    public void addroomMouseexited(MouseEvent mouseEvent) {
+    @FXML
+    private void addroomMouseexited(MouseEvent mouseEvent) {
         BtnAnimationStop(addroombtn);
     }
 
-    public void managereservationMouseexited(MouseEvent mouseEvent) {
+    @FXML
+    private void managereservationMouseexited(MouseEvent mouseEvent) {
         BtnAnimationStop(managereservationbtn);
     }
 
-    public void notificationbtnonMouseexited(MouseEvent mouseEvent) {
+    @FXML
+    private void notificationbtnonMouseexited(MouseEvent mouseEvent) {
         BtnAnimationStop(notificationbtn);
     }
 
-    public void availablebtnonMouseexited(MouseEvent mouseEvent) {
+    @FXML
+    private void availablebtnonMouseexited(MouseEvent mouseEvent) {
         BtnAnimationStop(availablebtn);
     }
 
-    public void settingbtnonMouse(MouseEvent mouseEvent) {
+    @FXML
+    private void settingbtnonMouse(MouseEvent mouseEvent) {
         BtnAnimationStop(seettingbtn);
     }
 
@@ -141,6 +193,48 @@ public class HomepageformController {
                 }
             }
         }.start();
+    }
+
+    @FXML
+    private void confirmbtnonAction(ActionEvent actionEvent) {
+
+    }
+
+    @FXML
+    private void cancelbtnonAction(ActionEvent actionEvent) {
+
+    }
+
+    private void setDataForTable(){
+        ReservationBo reservationBo = BoFactory.getBoFactory().getBo(BoFactory.BoType.RESERVATION);
+
+        List<ReservationEntity> reservationEntity = reservationBo.getAllPayDetails();
+        ObservableList<ReservationDTO> reservationDTO = FXCollections.observableArrayList();
+
+        for(ReservationEntity reservation : reservationEntity){
+            reservationDTO.add(new ReservationDTO(
+                    reservation.getReservationId(),
+                    reservation.getLastDate(),
+                    reservation.getOrderDateTime(),
+                    reservation.getStudent(),
+                    reservation.getStudent().getStudentId(),
+                    reservation.getRoom(),
+                    reservation.getRoom().getRoomTypeId(),
+                    reservation.getStatus(),
+                    reservation.getStudentName(),
+                    reservation.getKeyMoney()
+            ));
+        }
+        tableview.setItems(reservationDTO);
+    }
+
+    private void setCellValueFactory(){
+        reservationidrow.setCellValueFactory(new PropertyValueFactory<>("ReservationId"));
+        roomidrow.setCellValueFactory(new PropertyValueFactory<>("RoomTypeID"));
+        studentidrow.setCellValueFactory(new PropertyValueFactory<>("StudentID"));
+        studentnamerow.setCellValueFactory(new PropertyValueFactory<>("StudentName"));
+        statusrow.setCellValueFactory(new PropertyValueFactory<>("Status"));
+        daterow.setCellValueFactory(new PropertyValueFactory<>("LastDate"));
     }
 
 }

@@ -1,5 +1,6 @@
 package lk.ijse.HostalMangement.dao;
 
+import lk.ijse.HostalMangement.dao.custom.impl.QueryDaoImpl;
 import lk.ijse.HostalMangement.dao.custom.impl.ReservationDaoImpl;
 import lk.ijse.HostalMangement.dao.custom.impl.RoomDaoImpl;
 import lk.ijse.HostalMangement.dao.custom.impl.StudentDaoImpl;
@@ -15,7 +16,7 @@ public class DaoFactory {
     }
 
     public enum DaoType {
-        STUDENT,ROOM,RESERVATION
+        STUDENT,ROOM,RESERVATION,LOGIN
     }
 
     public <SuperDao> SuperDao getDao(DaoType daoType){
@@ -26,6 +27,8 @@ public class DaoFactory {
                 return (SuperDao) new RoomDaoImpl();
             case RESERVATION:
                 return (SuperDao) new ReservationDaoImpl();
+            case LOGIN:
+                return (SuperDao) new QueryDaoImpl();
             default:
                 return null;
         }

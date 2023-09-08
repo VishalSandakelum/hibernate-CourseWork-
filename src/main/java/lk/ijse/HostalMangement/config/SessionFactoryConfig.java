@@ -1,5 +1,6 @@
 package lk.ijse.HostalMangement.config;
 
+import lk.ijse.HostalMangement.entity.LoginEntity;
 import lk.ijse.HostalMangement.entity.ReservationEntity;
 import lk.ijse.HostalMangement.entity.RoomEntity;
 import lk.ijse.HostalMangement.entity.StudentEntity;
@@ -17,6 +18,7 @@ public class SessionFactoryConfig {
     private SessionFactoryConfig() {
         sessionFactory = new Configuration()
                 .configure()
+                .addAnnotatedClass(LoginEntity.class)
                 .addAnnotatedClass(StudentEntity.class)
                 .addAnnotatedClass(RoomEntity.class)
                 .addAnnotatedClass(ReservationEntity.class)
